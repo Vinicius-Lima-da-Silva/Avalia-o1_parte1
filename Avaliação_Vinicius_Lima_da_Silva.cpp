@@ -77,3 +77,114 @@ class Medico {
         this-> nome = _nome;
     }
 };
+
+class Interface_Paciente {
+public:
+    int opcao;
+    vector<Paciente*> pacientes;
+
+    int localizaCpf(vector<Paciente*> pacientes, string cpf) {
+        int i = 0;
+        for (auto el : pacientes) {
+            if (el->getCpf() == cpf) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+
+    void menu() {
+        do {
+            cout << "--Cadastro de Pacientes-- " << endl;
+            cout << "1. Incluir" << endl;
+            cout << "2. Excluir (Inserir CPF)" << endl;
+            cout << "3. Alterar (Inserir CPF)" << endl;
+            cout << "4. Listar" << endl;
+            cout << "5. Localizar (Inserir CPF)" << endl;
+            cout << "0. Voltar" << endl;
+            cin >> opcao;
+
+            string auxNome, auxCPF, auxDataNascimento;
+
+            if (opcao == 1) {
+                cout << "Informe o nome: ";
+                getline(cin >> ws, auxNome);
+
+                cout << "Informe o CPF: ";
+                getline(cin >> ws, auxCPF);
+
+                cout << "Informe a Data de Nascimento: ";
+                getline(cin >> ws, auxDataNascimento);
+
+                Paciente* paciente = new Paciente(auxCPF, auxDataNascimento, auxNome);
+
+                pacientes.push_back(paciente);
+            } else if (opcao == 2) {
+                cout << "Informe o CPF do paciente que deseja excluir: ";
+                getline(cin >> ws, auxCPF);
+                int indice = localizaCpf(pacientes, auxCPF);
+                if (indice != -1) {
+                    delete pacientes[indice]; // Liberar memória do paciente excluído
+                    pacientes.erase(pacientes.begin() + indice);
+                    cout << "Cadastro de paciente excluído com sucesso!" << endl;
+                } else {
+                    cout << "Paciente com CPF " << auxCPF << " não encontrado." << endl;
+                }
+            } else if (opcao == 3) {
+    cout << "Informe o CPF do paciente que deseja alterar: ";
+    getline(cin >> ws, auxCPF);
+    int indice = localizaCpf(pacientes, auxCPF);
+    
+    if (indice != -1) {
+        cout << "Paciente encontrado. O que você deseja alterar?" << endl;
+        cout << "1. Nome" << endl;
+        cout << "2. Data de Nascimento" << endl;
+        cout << "Escolha uma opção (1/2): ";
+        int escolha;
+        cin >> escolha;
+        
+        if (escolha == 1) {
+            cout << "Informe o novo nome: ";
+            getline(cin >> ws, auxNome);
+            pacientes[indice]->setNome(auxNome);
+            cout << "Nome do paciente atualizado com sucesso!" << endl;
+        } else if (escolha == 2) {
+            cout << "Informe a nova Data de Nascimento: ";
+            getline(cin >> ws, auxDataNascimento);
+            pacientes[indice]->setDataNascimento(auxDataNascimento);
+            cout << "Data de Nascimento do paciente atualizada com sucesso!" << endl;
+        } else {
+            cout << "Opção inválida. Nenhum dado foi alterado." << endl;
+        }
+    } else {
+        cout << "Paciente com CPF " << auxCPF << " não encontrado. Nenhum dado foi alterado." << endl;
+    }
+}
+ else if (opcao == 4) {
+                for (auto el : pacientes) {
+                    cout << "Nome: " << el->getNome() << endl;
+                    cout << "CPF: " << el->getCpf() << endl;
+                    cout << "Data de nascimento: " << el->getDataNascimento() << endl;
+                    cout << endl;
+                }
+            } else if (opcao == 5) {
+                cout << "Informe o CPF que deseja localizar: ";
+                getline(cin >> ws, auxCPF);
+                int indice = localizaCpf(pacientes, auxCPF);
+                if (indice != -1) {
+                    cout << "Paciente encontrado:" << endl;
+                    cout << "Nome: " << pacientes[indice]->getNome() << endl;
+                    cout << "CPF: " << pacientes[indice]->getCpf() << endl;
+                    cout << "Data de Nascimento: " << pacientes[indice]->getDataNascimento() << endl;
+                } else {
+                    cout << "Paciente com CPF " << auxCPF << " não encontrado." << endl;
+                }
+            } else if (opcao == 0) {
+                return;
+            } else {
+                cout << "OPCAO INVALIDA!" << endl;
+            }
+        } while (opcao != 0);
+    }
+};
