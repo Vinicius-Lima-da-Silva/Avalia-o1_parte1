@@ -298,3 +298,29 @@ class Interface_Medico {
     }
 
 };
+
+int main() {
+    Interface_Paciente interface_paciente;
+    Interface_Medico interface_medico;
+
+    int escolha;
+    do {
+        cout << "--Escolha a opcao--"<<endl;
+        cout << "1- Pacientes"<<endl;
+        cout <<"2- Medicos"<< endl;
+        cout <<"0- Sair" << endl;
+        cin >> escolha;
+
+        if (escolha == 1) {
+            interface_paciente.menu();
+        } else if (escolha == 2) {
+            interface_medico.menu();
+        } else if (escolha != 0) {
+            cout << "Opção inválida!" << endl;
+        }
+    } while (escolha != 0);
+
+    cout << "Saindo..." << endl;
+    return 0;
+}
+
